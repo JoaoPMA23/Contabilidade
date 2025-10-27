@@ -1,0 +1,15 @@
+﻿﻿﻿﻿{
+  "extends": ["next/core-web-v [Text.Encoding]::UTF8.GetString([Text.Encoding]::Default.GetBytes({
+  "extends": ["next/core-web-vitals", "next/typescript"]
+}
+)) tals", "next/typescr [Text.Encoding]::UTF8.GetString([Text.Encoding]::Default.GetBytes({
+  "extends": ["next/core-web-vitals", "next/typescript"]
+}
+)) pt"]
+}
+
+
+
+
+
+

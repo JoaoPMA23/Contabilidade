@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { signOutAction } from "@/app/(admin)/admin/actions";
-import { Button } from "@/components/ui/button";
+import { SignOutButton } from "@/components/admin/SignOutButton";
 import { auth } from "@/lib/auth";
 
 const navigation = [
@@ -60,15 +59,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
         <div className="mt-auto space-y-2 text-xs text-slate-500">
           <p className="font-semibold text-slate-700">{session.user.name}</p>
           <p>{session.user.email}</p>
-          <form action={signOutAction}>
-            <Button
-              type="submit"
-              variant="outline"
-              className="mt-3 w-full"
-            >
-              Sair
-            </Button>
-          </form>
+          <SignOutButton className="mt-3 w-full" />
         </div>
       </aside>
       <div className="flex flex-1 flex-col">

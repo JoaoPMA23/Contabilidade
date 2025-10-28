@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 
 import { requireSession, buildErrorResponse } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";

@@ -1,11 +1,39 @@
-﻿import NextAuth, { type NextAuthOptions } from "next-auth";
+import { randomBytes } from "node:crypto";
+
+import NextAuth, { getServerSession, type NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { compare } from "bcrypt";
-import type { Role } from "@prisma/client";
+import { compare } from "bcryptjs";
+import type { Role } from "@/types/prisma";
 
 import { prisma } from "@/lib/prisma";
 
+const runningOnVercel = process.env.VERCEL === "1";
+const isProdDeployment = process.env.NODE_ENV === "production" && runningOnVercel;
+
+const authSecret =
+  process.env.NEXTAUTH_SECRET ??
+  process.env.AUTH_SECRET ??
+  (!isProdDeployment ? randomBytes(32).toString("hex") : undefined);
+
+if (!authSecret) {
+  throw new Error(
+    "NEXTAUTH_SECRET (or AUTH_SECRET) must be defined for production deployments."
+  );
+}
+
+if (
+  !process.env.NEXTAUTH_SECRET &&
+  !process.env.AUTH_SECRET &&
+  !isProdDeployment
+) {
+  // eslint-disable-next-line no-console
+  console.warn(
+    "NextAuth secret not set. Using a temporary value for local development."
+  );
+}
+
 export const authOptions: NextAuthOptions = {
+  secret: authSecret,
   session: {
     strategy: "jwt",
   },
@@ -16,7 +44,7 @@ export const authOptions: NextAuthOptions = {
     Credentials({
       name: "Credenciais",
       credentials: {
-        username: { label: "Usuário", type: "text" },
+        username: { label: "Usuario", type: "text" },
         password: { label: "Senha", type: "password" },
       },
       async authorize(credentials) {
@@ -76,12 +104,13 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  trustHost: true,
 };
 
-export const {
-  handlers: { GET, POST },
-  auth,
-  signIn,
-  signOut,
-} = NextAuth(authOptions);
+const handler = NextAuth(authOptions);
+
+export const GET = handler;
+export const POST = handler;
+
+export function auth() {
+  return getServerSession(authOptions);
+}

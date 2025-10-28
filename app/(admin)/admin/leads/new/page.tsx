@@ -11,26 +11,31 @@ export default async function NewLeadPage() {
     redirect("/login");
   }
 
+  const user = session.user;
+
   const owners = await prisma.user.findMany({
     orderBy: { name: "asc" },
     select: { id: true, name: true },
   });
 
-  const availableOwners = session.user.role === "ADMIN"
-    ? owners
-    : owners.filter((owner) => owner.id === session.user.id);
+  const availableOwners =
+    user.role === "ADMIN"
+      ? owners
+      : owners.filter(
+          (owner: (typeof owners)[number]) => owner.id === user.id
+        );
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-brand-primary">Novo lead</h1>
         <p className="text-sm text-slate-500">
-          Cadastre manualmente um lead recebido por telefone, indicação ou evento.
+          Cadastre manualmente um lead recebido por telefone, indicaÃ§Ã£o ou evento.
         </p>
       </div>
       <LeadForm
         owners={availableOwners}
-        currentRole={session.user.role === "ADMIN" ? "ADMIN" : "AGENT"}
+        currentRole={user.role === "ADMIN" ? "ADMIN" : "AGENT"}
       />
     </div>
   );

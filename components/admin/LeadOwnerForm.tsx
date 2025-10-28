@@ -32,10 +32,10 @@ export function LeadOwnerForm({ leadId, owners, ownerId, disabled }: LeadOwnerFo
 
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
-        throw new Error(data.error ?? "N„o foi possÌvel atualizar o respons·vel.");
+        throw new Error(data.error ?? "N√£o foi poss√≠vel atualizar o respons√°vel.");
       }
 
-      toast.success("Respons·vel atualizado.");
+      toast.success("Respons√°vel atualizado.");
       router.refresh();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Erro inesperado.");
@@ -51,7 +51,7 @@ export function LeadOwnerForm({ leadId, owners, ownerId, disabled }: LeadOwnerFo
       onChange={handleChange}
       disabled={disabled || isUpdating}
     >
-      <option value="">Sem respons·vel</option>
+      <option value="">Sem respons√°vel</option>
       {owners.map((owner) => (
         <option key={owner.id} value={owner.id}>
           {owner.name}

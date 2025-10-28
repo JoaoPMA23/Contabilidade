@@ -1,6 +1,6 @@
 "use client";
 
-import { LeadStatus } from "@prisma/client";
+import type { LeadStatus } from "@/types/prisma";
 import { useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -163,7 +163,7 @@ export function LeadFilters({
               htmlFor="ownerId"
               className="text-xs font-semibold uppercase tracking-wide text-slate-500"
             >
-              Respons·vel
+              Respons√°vel
             </label>
             <Select
               id="ownerId"
@@ -185,7 +185,7 @@ export function LeadFilters({
             htmlFor="startDate"
             className="text-xs font-semibold uppercase tracking-wide text-slate-500"
           >
-            InÌcio
+            In√≠cio
           </label>
           <Input
             id="startDate"

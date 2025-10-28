@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
-import { NoteType } from "@prisma/client";
+import type { NoteType } from "@/types/prisma";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";

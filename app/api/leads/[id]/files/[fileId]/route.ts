@@ -43,7 +43,7 @@ export async function GET(_request: Request, { params }: RouteParams) {
     }
 
     const nodeStream = await getFileStream(file.key);
-    const webStream = Readable.toWeb(nodeStream);
+    const webStream = Readable.toWeb(nodeStream) as unknown as ReadableStream;
 
     return new NextResponse(webStream, {
       headers: {

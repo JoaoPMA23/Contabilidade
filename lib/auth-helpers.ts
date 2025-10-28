@@ -3,16 +3,22 @@ import { ZodError } from "zod";
 
 import { auth } from "@/lib/auth";
 
-export async function requireSession() {
+type AuthSession = NonNullable<Awaited<ReturnType<typeof auth>>>;
+type SessionWithUser = AuthSession & {
+  user: NonNullable<AuthSession["user"]>;
+};
+
+export async function requireSession(): Promise<SessionWithUser> {
   const session = await auth();
   if (!session?.user) {
     throw new UnauthorizedError();
   }
-  return session;
+  const sessionWithUser: SessionWithUser = { ...session, user: session.user };
+  return sessionWithUser;
 }
 
 export class UnauthorizedError extends Error {
-  constructor(message = "Não autorizado") {
+  constructor(message = "Nao autorizado") {
     super(message);
     this.name = "UnauthorizedError";
   }
@@ -44,8 +50,8 @@ export function buildErrorResponse(error: unknown) {
   );
 }
 
-export function assertAdmin(session: Awaited<ReturnType<typeof requireSession>>) {
-  if (session.user?.role !== "ADMIN") {
+export function assertAdmin(session: SessionWithUser) {
+  if (session.user.role !== "ADMIN") {
     throw new ForbiddenError("Funcionalidade restrita para administradores.");
   }
 }

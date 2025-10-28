@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { LeadStatus } from "@prisma/client";
+import type { LeadStatus } from "@/types/prisma";
 
 import { Select } from "@/components/ui/select";
 
@@ -40,7 +40,7 @@ export function LeadStatusForm({ leadId, status, disabled }: LeadStatusFormProps
 
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
-        throw new Error(data.error ?? "Não foi possível atualizar o status.");
+        throw new Error(data.error ?? "NÃ£o foi possÃ­vel atualizar o status.");
       }
 
       toast.success("Status atualizado.");

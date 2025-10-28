@@ -1,5 +1,7 @@
-import { PrismaClient, LeadStatus, Role } from "@prisma/client";
-import bcrypt from "bcrypt";
+import { PrismaClient } from "@prisma/client";
+import { hash } from "bcryptjs";
+import { LeadStatusEnum, RoleEnum } from "@/types/prisma";
+import type { LeadStatus } from "@/types/prisma";
 
 const prisma = new PrismaClient();
 
@@ -20,13 +22,13 @@ async function main() {
   const adminPassword =
     process.env.SEED_ADMIN_PASSWORD ?? "Admin@123";
 
-  const adminHash = await bcrypt.hash(adminPassword, 12);
+  const adminHash = await hash(adminPassword, 12);
 
   await prisma.user.upsert({
     where: { username: "admin" },
     update: {
       passwordHash: adminHash,
-      role: Role.ADMIN,
+      role: RoleEnum.ADMIN,
       email: "admin@contabilidade.test",
       name: "Administrador",
     },
@@ -35,11 +37,11 @@ async function main() {
       name: "Administrador",
       email: "admin@contabilidade.test",
       passwordHash: adminHash,
-      role: Role.ADMIN,
+      role: RoleEnum.ADMIN,
     },
   });
 
-  const agentHash = await bcrypt.hash("Agent@123", 12);
+  const agentHash = await hash("Agent@123", 12);
 
   const agents = await Promise.all(
     ["marina", "luiz"].map((username, index) =>
@@ -53,7 +55,7 @@ async function main() {
           name: `Agente ${index + 1}`,
           email: `${username}@contabilidade.test`,
           passwordHash: agentHash,
-          role: Role.AGENT,
+          role: RoleEnum.AGENT,
         },
       })
     )
@@ -62,15 +64,16 @@ async function main() {
   await prisma.lead.deleteMany();
 
   const statuses: LeadStatus[] = [
-    LeadStatus.LEAD,
-    LeadStatus.PROPOSTA,
-    LeadStatus.CONTRATO,
-    LeadStatus.CLIENTE,
+    LeadStatusEnum.LEAD,
+    LeadStatusEnum.PROPOSTA,
+    LeadStatusEnum.CONTRATO,
+    LeadStatusEnum.CLIENTE,
   ];
 
   const now = Date.now();
 
-  for (const [index, [companyName, contactName]] of SAMPLE_LEAD_NAMES.entries()) {
+  for (let index = 0; index < SAMPLE_LEAD_NAMES.length; index += 1) {
+    const [companyName, contactName] = SAMPLE_LEAD_NAMES[index];
     const status = statuses[index % statuses.length];
     const owner = agents[index % agents.length];
 

@@ -42,6 +42,8 @@ export default async function LeadsPage({ searchParams }: LeadsPageProps) {
     redirect("/login");
   }
 
+  const user = session.user;
+
   let filters;
   try {
     filters = normalizeParams(searchParams);
@@ -50,16 +52,19 @@ export default async function LeadsPage({ searchParams }: LeadsPageProps) {
   }
 
   const [{ leads, total, statusCounters }, owners] = await Promise.all([
-    listLeadsForSession(session.user, filters),
+    listLeadsForSession(user, filters),
     prisma.user.findMany({
       orderBy: { name: "asc" },
       select: { id: true, name: true },
     }),
   ]);
 
-  const visibleOwners = session.user.role === "ADMIN"
-    ? owners
-    : owners.filter((owner) => owner.id === session.user.id);
+  const visibleOwners =
+    user.role === "ADMIN"
+      ? owners
+      : owners.filter(
+          (owner: (typeof owners)[number]) => owner.id === user.id
+        );
 
   const totalPages = Math.max(1, Math.ceil(total / filters.perPage));
 
@@ -121,7 +126,7 @@ export default async function LeadsPage({ searchParams }: LeadsPageProps) {
           endDate: filters.endDate ? filters.endDate.toISOString() : null,
         }}
         statusCounters={statusCounters}
-        showOwnerFilter={session.user.role === "ADMIN"}
+        showOwnerFilter={user.role === "ADMIN"}
       />
       <LeadsTable
         leads={leads}
@@ -129,7 +134,7 @@ export default async function LeadsPage({ searchParams }: LeadsPageProps) {
         perPage={filters.perPage}
         total={total}
         totalPages={totalPages}
-        currentRole={session.user.role === "ADMIN" ? "ADMIN" : "AGENT"}
+        currentRole={user.role === "ADMIN" ? "ADMIN" : "AGENT"}
       />
     </div>
   );

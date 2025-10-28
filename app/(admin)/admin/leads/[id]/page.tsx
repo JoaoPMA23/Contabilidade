@@ -28,6 +28,8 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
     redirect("/login");
   }
 
+  const user = session.user;
+
   const lead = await prisma.lead.findUnique({
     where: { id: params.id },
     include: {
@@ -54,8 +56,8 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
   }
 
   if (
-    session.user.role !== "ADMIN" &&
-    lead.ownerId !== session.user.id &&
+    user.role !== "ADMIN" &&
+    lead.ownerId !== user.id &&
     lead.ownerId !== null
   ) {
     redirect("/admin/leads");
@@ -66,7 +68,7 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
     select: { id: true, name: true },
   });
 
-  const noteEntries = lead.notes.map((note) => ({
+  const noteEntries = lead.notes.map((note: typeof lead.notes[number]) => ({
     id: note.id,
     type: note.type,
     content: note.content,
@@ -75,7 +77,7 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
     user: note.user,
   }));
 
-  const fileEntries = lead.files.map((file) => ({
+  const fileEntries = lead.files.map((file: typeof lead.files[number]) => ({
     id: file.id,
     originalName: file.originalName,
     mime: file.mime,
@@ -101,9 +103,9 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
       <Card>
         <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1">
-            <h2 className="text-lg font-semibold text-slate-800">InformaÁıes principais</h2>
+            <h2 className="text-lg font-semibold text-slate-800">Informa√ß√µes principais</h2>
             <p className="text-sm text-slate-500">
-              Dados cadastrais do lead e respons·vel atual.
+              Dados cadastrais do lead e respons√°vel atual.
             </p>
           </div>
         </CardHeader>
@@ -133,13 +135,13 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
                 <LeadStatusForm
                   leadId={lead.id}
                   status={lead.status}
-                  disabled={lead.ownerId !== session.user.id && session.user.role !== "ADMIN"}
+                  disabled={lead.ownerId !== user.id && user.role !== "ADMIN"}
                 />
               </div>
-              {session.user.role === "ADMIN" ? (
+              {user.role === "ADMIN" ? (
                 <div className="space-y-1">
                   <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Respons·vel
+                    Respons√°vel
                   </p>
                   <LeadOwnerForm
                     leadId={lead.id}
@@ -169,14 +171,14 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
         <CardHeader>
           <h2 className="text-lg font-semibold text-slate-800">Atividades</h2>
           <p className="text-sm text-slate-500">
-            Registre ligaÁıes, reuniıes e prÛximos passos.
+            Registre liga√ß√µes, reuni√µes e pr√≥ximos passos.
           </p>
         </CardHeader>
         <CardContent>
           <LeadNotes
             leadId={lead.id}
             notes={noteEntries}
-            canAdd={lead.ownerId === session.user.id || session.user.role === "ADMIN"}
+            canAdd={lead.ownerId === user.id || user.role === "ADMIN"}
           />
         </CardContent>
       </Card>
@@ -192,7 +194,7 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
           <LeadFiles
             leadId={lead.id}
             files={fileEntries}
-            canUpload={lead.ownerId === session.user.id || session.user.role === "ADMIN"}
+            canUpload={lead.ownerId === user.id || user.role === "ADMIN"}
           />
         </CardContent>
       </Card>

@@ -1,4 +1,3 @@
-import { Buffer } from "node:buffer";
 import { z } from "zod";
 
 export const loginSchema = z.object({
@@ -61,7 +60,7 @@ export const fileUploadSchema = z.object({
   originalName: z.string(),
   mime: z.string(),
   size: z.number().int().nonnegative().max(10 * 1024 * 1024),
-  buffer: z.instanceof(Buffer),
+  buffer: z.instanceof(Uint8Array),
 });
 
 export const userCreateSchema = z.object({

@@ -8,7 +8,13 @@ import { prisma } from "@/lib/prisma";
 export default async function UsersPage() {
   const session = await auth();
 
-  if (!session?.user || session.user.role !== "ADMIN") {
+  if (!session?.user) {
+    redirect("/admin/leads");
+  }
+
+  const user = session.user;
+
+  if (user.role !== "ADMIN") {
     redirect("/admin/leads");
   }
 
@@ -27,16 +33,16 @@ export default async function UsersPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-brand-primary">Usu·rios</h1>
+        <h1 className="text-2xl font-bold text-brand-primary">Usu√°rios</h1>
         <p className="text-sm text-slate-500">
           Gerencie as contas com acesso ao painel administrativo.
         </p>
       </div>
       <Card>
         <CardHeader>
-          <h2 className="text-lg font-semibold text-slate-800">Adicionar usu·rio</h2>
+          <h2 className="text-lg font-semibold text-slate-800">Adicionar usu√°rio</h2>
           <p className="text-sm text-slate-500">
-            Defina um usu·rio e senha tempor·ria. O usu·rio pode alter·-la apÛs o primeiro acesso.
+            Defina um usu√°rio e senha tempor√°ria. O usu√°rio pode alter√°-la ap√≥s o primeiro acesso.
           </p>
         </CardHeader>
         <CardContent>
@@ -45,7 +51,7 @@ export default async function UsersPage() {
       </Card>
       <Card>
         <CardHeader>
-          <h2 className="text-lg font-semibold text-slate-800">Usu·rios ativos</h2>
+          <h2 className="text-lg font-semibold text-slate-800">Usu√°rios ativos</h2>
         </CardHeader>
         <CardContent>
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
@@ -54,13 +60,13 @@ export default async function UsersPage() {
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Nome</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">E-mail</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Usu·rio</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Usu√°rio</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Perfil</th>
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Criado em</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {users.map((user) => (
+                {users.map((user: (typeof users)[number]) => (
                   <tr key={user.id}>
                     <td className="px-4 py-3 text-slate-700">{user.name}</td>
                     <td className="px-4 py-3 text-slate-500">{user.email}</td>

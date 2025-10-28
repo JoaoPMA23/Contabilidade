@@ -1,30 +1,39 @@
-import { NextResponse, type NextRequest } from "next/server";
-
-import { auth } from "@/lib/auth";
+import { NextResponse } from "next/server";
+import { withAuth } from "next-auth/middleware";
 
 const ADMIN_PATH = "/admin";
 
-export async function middleware(request: NextRequest) {
-  const session = await auth();
+export default withAuth(
+  function middleware(request) {
+    const token = request.nextauth.token;
 
-  if (request.nextUrl.pathname.startsWith(ADMIN_PATH)) {
-    if (!session?.user) {
-      const loginUrl = new URL("/login", request.url);
-      loginUrl.searchParams.set("callbackUrl", request.url);
-      return NextResponse.redirect(loginUrl);
+    if (
+      request.nextUrl.pathname === "/login" &&
+      token &&
+      request.nextUrl.searchParams.get("callbackUrl") === null
+    ) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = ADMIN_PATH;
+      redirectUrl.search = "";
+      return NextResponse.redirect(redirectUrl);
     }
-  }
 
-  if (
-    request.nextUrl.pathname === "/login" &&
-    session?.user &&
-    request.nextUrl.searchParams.get("callbackUrl") === null
-  ) {
-    return NextResponse.redirect(new URL(ADMIN_PATH, request.url));
+    return NextResponse.next();
+  },
+  {
+    callbacks: {
+      authorized: ({ token, req }) => {
+        if (req.nextUrl.pathname.startsWith(ADMIN_PATH)) {
+          return token != null;
+        }
+        return true;
+      },
+    },
+    pages: {
+      signIn: "/login",
+    },
   }
-
-  return NextResponse.next();
-}
+);
 
 export const config = {
   matcher: ["/admin/:path*", "/login"],

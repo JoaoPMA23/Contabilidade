@@ -1,4 +1,4 @@
-import { LeadStatus } from "@prisma/client";
+import type { LeadStatus } from "@/types/prisma";
 
 import type { LeadWithOwner } from "@/lib/lead-service";
 

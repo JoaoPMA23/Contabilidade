@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { LeadStatus } from "@prisma/client";
+import type { LeadStatus } from "@/types/prisma";
 import type { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -73,7 +73,7 @@ export function LeadForm({ owners, currentRole }: LeadFormProps) {
 
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
-        throw new Error(data.error ?? "N„o foi possÌvel criar o lead.");
+        throw new Error(data.error ?? "N√£o foi poss√≠vel criar o lead.");
       }
 
       const lead = await response.json();
@@ -156,7 +156,7 @@ export function LeadForm({ owners, currentRole }: LeadFormProps) {
       {currentRole === "ADMIN" ? (
         <div className="space-y-2">
           <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Respons·vel
+            Respons√°vel
           </label>
           <Select
             value={form.watch("ownerId") ?? ""}
@@ -168,7 +168,7 @@ export function LeadForm({ owners, currentRole }: LeadFormProps) {
               )
             }
           >
-            <option value="">Sem respons·vel</option>
+            <option value="">Sem respons√°vel</option>
             {owners.map((owner) => (
               <option key={owner.id} value={owner.id}>
                 {owner.name}
@@ -182,7 +182,7 @@ export function LeadForm({ owners, currentRole }: LeadFormProps) {
           <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
             Origem
           </label>
-          <Input placeholder="site, indicaÁ„o, evento..." {...form.register("source")} />
+          <Input placeholder="site, indica√ß√£o, evento..." {...form.register("source")} />
         </div>
         <div className="space-y-2">
           <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">

@@ -26,7 +26,7 @@ export function LoginForm({ callbackUrl, className }: LoginFormProps) {
     const targetUrl = callbackUrl ?? "/admin/leads";
 
     if (typeof username !== "string" || typeof password !== "string") {
-      setError("Dados invalidos.");
+      setError("Dados inválidos.");
       return;
     }
 
@@ -43,9 +43,9 @@ export function LoginForm({ callbackUrl, className }: LoginFormProps) {
 
       if (result?.error) {
         if (result.error === "CredentialsSignin") {
-          setError("Credenciais invalidas.");
+          setError("Credenciais inválidas.");
         } else {
-          setError("Nao foi possivel autenticar.");
+          setError("Não foi possível autenticar.");
         }
         return;
       }
@@ -65,10 +65,10 @@ export function LoginForm({ callbackUrl, className }: LoginFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className={cn("space-y-5", className)}>
-      <input type="hidden" name="callbackUrl" value={callbackUrl} />
+      <input type="hidden" name="callbackUrl" value={callbackUrl ?? ""} />
       <div className="space-y-2">
         <label htmlFor="username" className="text-sm font-medium text-slate-700">
-          Usuario
+          Usuário
         </label>
         <Input
           id="username"

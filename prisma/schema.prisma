@@ -3,13 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
-}
-
-enum Role {
-  ADMIN
-  AGENT
 }
 
 model User {
@@ -18,20 +13,12 @@ model User {
   email        String    @unique
   username     String    @unique
   passwordHash String
-  role         Role      @default(AGENT)
+  role         String    @default("AGENT")
   leadsOwned   Lead[]    @relation("LeadOwner")
   notes        LeadNote[]
   files        LeadFile[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
-}
-
-enum LeadStatus {
-  LEAD
-  PROPOSTA
-  CONTRATO
-  CLIENTE
-  ARQUIVADO
 }
 
 model Lead {
@@ -45,7 +32,7 @@ model Lead {
   message      String?
   source       String?
   utm          String?
-  status       LeadStatus  @default(LEAD)
+  status       String      @default("LEAD")
   ownerId      String?
   owner        User?       @relation("LeadOwner", fields: [ownerId], references: [id])
   notes        LeadNote[]
@@ -55,21 +42,13 @@ model Lead {
   updatedAt    DateTime    @updatedAt
 }
 
-enum NoteType {
-  NOTE
-  CALL
-  EMAIL
-  WHATSAPP
-  MEETING
-}
-
 model LeadNote {
   id           String    @id @default(cuid())
   leadId       String
   lead         Lead      @relation(fields: [leadId], references: [id])
   userId       String
   user         User      @relation(fields: [userId], references: [id])
-  type         NoteType  @default(NOTE)
+  type         String    @default("NOTE")
   content      String
   nextActionAt DateTime?
   createdAt    DateTime  @default(now())
@@ -87,3 +66,4 @@ model LeadFile {
   size         Int
   createdAt    DateTime @default(now())
 }
+

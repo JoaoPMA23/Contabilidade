@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+
+import { AuthProvider } from "@/components/providers/auth-provider";
+import { AppToaster } from "@/components/ui/toaster";
+import { auth } from "@/lib/auth";
 import "./globals.css";
 
 const siteName = "Spolaor Contabilidade";
@@ -50,14 +54,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="pt-BR">
-      <body className="antialiased">{children}</body>
+      <body className="min-h-screen bg-white text-slate-900 antialiased">
+        <AuthProvider session={session}>
+          {children}
+          <AppToaster />
+        </AuthProvider>
+      </body>
     </html>
   );
 }

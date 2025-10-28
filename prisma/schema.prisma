@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = env("DATABASE_PROVIDER")
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  AGENT
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  username     String    @unique
+  passwordHash String
+  role         Role      @default(AGENT)
+  leadsOwned   Lead[]    @relation("LeadOwner")
+  notes        LeadNote[]
+  files        LeadFile[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+enum LeadStatus {
+  LEAD
+  PROPOSTA
+  CONTRATO
+  CLIENTE
+  ARQUIVADO
+}
+
+model Lead {
+  id           String      @id @default(cuid())
+  companyName  String?
+  cnpj         String?
+  contactName  String
+  email        String
+  phone        String?
+  subject      String?
+  message      String?
+  source       String?
+  utm          String?
+  status       LeadStatus  @default(LEAD)
+  ownerId      String?
+  owner        User?       @relation("LeadOwner", fields: [ownerId], references: [id])
+  notes        LeadNote[]
+  files        LeadFile[]
+  archivedAt   DateTime?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+enum NoteType {
+  NOTE
+  CALL
+  EMAIL
+  WHATSAPP
+  MEETING
+}
+
+model LeadNote {
+  id           String    @id @default(cuid())
+  leadId       String
+  lead         Lead      @relation(fields: [leadId], references: [id])
+  userId       String
+  user         User      @relation(fields: [userId], references: [id])
+  type         NoteType  @default(NOTE)
+  content      String
+  nextActionAt DateTime?
+  createdAt    DateTime  @default(now())
+}
+
+model LeadFile {
+  id           String   @id @default(cuid())
+  leadId       String
+  lead         Lead     @relation(fields: [leadId], references: [id])
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  key          String
+  originalName String
+  mime         String
+  size         Int
+  createdAt    DateTime @default(now())
+}

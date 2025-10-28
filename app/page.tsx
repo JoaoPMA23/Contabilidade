@@ -1,7 +1,5 @@
-import Link from "next/link";
-import ContactForm from "@/components/contact-form";
-import SiteHeader from "@/components/site-header";
-import { FaWhatsapp } from "react-icons/fa";
+﻿import Link from "next/link";
+import type { IconType } from "react-icons";
 import {
   FiArrowRight,
   FiBarChart2,
@@ -11,21 +9,27 @@ import {
   FiShield,
   FiTrendingUp,
   FiUsers,
-  FiZap,
 } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
+
+import ContactForm from "@/components/contact-form";
+import SiteHeader from "@/components/site-header";
 
 const heroHighlights = [
   {
     title: "Eficaz",
-    description: "Processos digitais que reduzem a burocracia e agilizam entregas.",
+    description:
+      "Onboarding digital com acompanhamento diário para não perder prazos.",
   },
   {
     title: "Qualidade",
-    description: "Equipe sênior acompanhando a rotina fiscal, contábil e trabalhista.",
+    description:
+      "Equipe sênior dedicada às rotinas contábil, fiscal e trabalhista.",
   },
   {
     title: "Estratégia",
-    description: "Indicadores e relatórios claros para decisões mais seguras.",
+    description:
+      "Indicadores que entregam clareza para as decisões e crescimento sustentável.",
   },
 ];
 
@@ -33,134 +37,121 @@ const actionCards = [
   {
     title: "Abrir minha Empresa",
     description:
-      "Constituição rápida, planejamento tributário e suporte completo pós-abertura.",
-    href: "/abertura",
-    cta: "Quero abrir hoje",
+      "Planejamento tributário, contrato social e CNPJ liberado com segurança e rapidez.",
+    href: "#abertura",
+    cta: "Quero abrir agora",
   },
   {
     title: "Trocar de Contador",
     description:
-      "Migração assistida, checklist completo e comunicação direta com seu contador atual.",
-    href: "/trocar",
-    cta: "Quero migrar agora",
+      "Migração assistida, checklist completo e relacionamento próximo desde o primeiro dia.",
+    href: "#trocar",
+    cta: "Quero migrar",
   },
 ];
 
-const services = [
+type ServiceItem = {
+  title: string;
+  description: string;
+  icon: IconType;
+};
+
+const services: ServiceItem[] = [
   {
     title: "Planejamento Tributário",
-    description: "Estudos personalizados para reduzir a carga tributária com segurança.",
+    description:
+      "Revisamos cenários e indicamos o regime ideal para reduzir impostos com segurança.",
+    icon: FiTrendingUp,
   },
   {
     title: "BPO Financeiro",
-    description: "Gestão financeira ponta a ponta: contas, conciliações e fluxo de caixa.",
+    description:
+      "Gestão ponta a ponta de contas a pagar, receber, conciliações e fluxo de caixa.",
+    icon: FiBarChart2,
   },
   {
     title: "Folha & Benefícios",
-    description: "Processamento de folha, encargos, pró-labore e rotinas trabalhistas.",
+    description:
+      "Processos trabalhistas completos com indicadores que fortalecem a cultura.",
+    icon: FiUsers,
   },
   {
-    title: "Relatórios Gerenciais",
-    description: "Dashboards mensais com indicadores essenciais para o negócio.",
+    title: "Controladoria",
+    description:
+      "Dashboards, DRE gerencial e análise por centro de custo para orientar decisões.",
+    icon: FiCompass,
   },
   {
     title: "Regularização Fiscal",
-    description: "Tratativa de pendências em órgãos municipais, estaduais e federais.",
+    description:
+      "Tratativa de notificações, parcelamentos e emissão de certidões negativas.",
+    icon: FiShield,
   },
   {
-    title: "Consultoria Permanente",
-    description: "Suporte consultivo contínuo para orientar decisões estratégicas.",
+    title: "Consultoria Estratégica",
+    description:
+      "Sprints mensais com recomendações para crescimento, compliance e governança.",
+    icon: FiBriefcase,
   },
-];
-
-const serviceIcons = [
-  FiTrendingUp,
-  FiBriefcase,
-  FiUsers,
-  FiBarChart2,
-  FiShield,
-  FiCompass,
 ];
 
 const abrirSteps = [
-  "Entendimento do modelo de negócio e definição do CNAE ideal.",
-  "Planejamento tributário e escolha da natureza jurídica.",
-  "Formalização de documentos, contrato social e protocolos oficiais.",
-  "Entrega da empresa ativa com orientações para os primeiros 90 dias.",
+  "Reunião de entendimento do modelo de negócios e definição do CNAE ideal.",
+  "Planejamento tributário, enquadramento e desenho do contrato social.",
+  "Envio da documentação, protocolos e acompanhamento dos órgãos competentes.",
+  "Entrega da empresa ativa com kit de boas-vindas e playbook dos 90 primeiros dias.",
 ];
 
 const trocarSteps = [
-  "Checklist de documentos e alinhamento com o contador atual.",
-  "Mapeamento das obrigações pendentes e plano de regularização.",
-  "Onboarding assistido com equipe dedicada e canais exclusivos.",
-];
-
-const areaClienteLinks = [
-  {
-    label: "Acessar Área do Cliente",
-    description: "Portal único para documentos, relatórios e abertura de chamados.",
-    href:
-      process.env.NEXT_PUBLIC_CLIENT_AREA_URL ??
-      "https://clientes.spolaorcontabilidade.com.br",
-  },
-];
-
-const trabalheConosco = {
-  email:
-    process.env.NEXT_PUBLIC_TALENT_EMAIL ?? "talentos@spolaorcontabilidade.com.br",
-  description:
-    "Envie seu currículo e faça parte de um time que transforma dados contábeis em estratégia.",
-};
-
-const wineHighlights = [
-  "Diagnóstico completo dos números atuais em até 48 horas.",
-  "Processos estruturados para garantir compliance contínuo.",
-  "Time dedicado para implantar melhorias sem paralisar operações.",
+  "Checklist completo e contato com o contador atual para garantir continuidade.",
+  "Auditoria das obrigações abertas com plano de regularização assistido.",
+  "Onboarding financeiro com implantação dos fluxos digitais de atendimento.",
 ];
 
 const rawWhatsappNumber =
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, "") ?? "5511999999999";
-const whatsappUrl = `https://wa.me/${rawWhatsappNumber}`;
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ??
+  process.env.NEXT_PUBLIC_PHONE_DISPLAY ??
+  "(11) 99999-9999";
+const whatsappDigits = rawWhatsappNumber.replace(/\D/g, "") || "5511999999999";
+const whatsappUrl = `https://wa.me/${whatsappDigits}`;
+const whatsappDisplay =
+  process.env.NEXT_PUBLIC_WHATSAPP_DISPLAY ?? "(11) 99999-9999";
+
+const clientAreaUrl =
+  process.env.NEXT_PUBLIC_CLIENT_AREA_URL ??
+  "https://clientes.spolaorcontabilidade.com.br";
+
+const contactEmail =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contato@spolaorcontabilidade.com.br";
+const talentEmail =
+  process.env.NEXT_PUBLIC_TALENT_EMAIL ?? "talentos@spolaorcontabilidade.com.br";
+const phoneDisplay =
+  process.env.NEXT_PUBLIC_PHONE_DISPLAY ?? "(11) 99999-9999";
+const address =
+  process.env.NEXT_PUBLIC_ADDRESS ??
+  "Av. Paulista, 1000 - Bela Vista, São Paulo - SP";
+
+const mapEmbedUrl =
+  process.env.NEXT_PUBLIC_MAPS_EMBED_URL ??
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.9442406064587!2d-46.65213752372061!3d-23.5701507787969!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8a1d3bff7%3A0x7b8d0a58f3f5c33e!2sAvenida%20Paulista%2C%201000!5e0!3m2!1spt-BR!2sbr!4v1719000000000!5m2!1spt-BR!2sbr";
 
 export default function Home() {
   return (
-    <div className="relative flex min-h-screen flex-col text-slate-900">
+    <div className="flex min-h-screen flex-col bg-brand-tertiary text-slate-900">
       <SiteHeader variant="home" />
-      <main>
+      <main className="flex flex-1 flex-col">
         <Hero />
         <ActionBlocks />
-        <WineCta />
+        <PrimaryCta />
         <Services />
-        <WhatsAppSection />
-        <StepsSection
-          id="abertura"
-          title="Abra sua Empresa agora"
-          description="Equipe especializada acompanha todas as etapas da abertura para você focar no plano de negócios."
-          steps={abrirSteps}
-          cta={{ label: "Falar com a Spolaor sobre abertura", href: "/abertura" }}
-        />
-        <StepsSection
-          id="trocar"
-          title="Troque de Contabilidade"
-          description="Migração transparente e sem interrupções na operação da sua empresa."
-          steps={trocarSteps}
-          cta={{ label: "Iniciar migração agora", href: "/trocar" }}
-        />
-        <AreaCliente />
-        <TrabalheConosco />
+        <SupportSection />
+        <AberturaSteps />
+        <TrocaSteps />
         <Mapa />
         <Contato />
       </main>
       <Footer />
-      <a
-        href={whatsappUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 flex h-14 w-14 items-center justify-center rounded-full bg-brand-green text-white shadow-lg shadow-brand-green/40 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green"
-        aria-label="Falar com a contabilidade pelo WhatsApp"
-      >
-        <FaWhatsapp className="h-7 w-7" aria-hidden="true" />
-      </a>
+      <FloatingWhatsApp />
     </div>
   );
 }
@@ -169,56 +160,83 @@ function Hero() {
   return (
     <section
       id="hero"
-      className="border-b border-slate-200 bg-[radial-gradient(circle_at_top,#fff5eb,#f8fafc)]"
+      className="bg-gradient-to-br from-brand-primary via-[#013863] to-brand-primary text-white"
     >
-      <div className="container grid gap-12 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <div className="container grid gap-12 py-24 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
         <div className="space-y-8">
-          <div className="flex items-center gap-3 text-xs uppercase tracking-[0.4em] text-brand-green">
-            <span className="inline-flex h-2 w-2 rounded-full bg-brand-green" aria-hidden />
-            Contabilidade consultiva para empresas modernas
-          </div>
-          <div className="space-y-6">
-            <h1 className="text-4xl font-bold text-slate-900 sm:text-5xl">
+          <div className="space-y-4">
+            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-brand-secondary">
+              Contabilidade estratégica
+            </span>
+            <h1 className="text-balance text-4xl font-bold leading-tight sm:text-5xl">
               Procurando uma Contabilidade?
             </h1>
-            <p className="max-w-xl text-base text-slate-600">
-              Ajudamos sua empresa a crescer com inteligência financeira, tecnologia e uma equipe
-              dedicada ao resultado.
-            </p>
           </div>
+          <p className="max-w-xl text-lg text-white/90">
+            Estar ao lado de quem empreende é assumir o compromisso com números,
+            compliance e decisões rápidas. Combinamos tecnologia e especialistas
+            para levar previsibilidade à rotina da sua empresa.
+          </p>
           <div className="grid gap-4 sm:grid-cols-3">
             {heroHighlights.map((highlight) => (
               <div
                 key={highlight.title}
-                className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                className="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-sm"
               >
-                <h3 className="text-lg font-semibold text-brand-orange">{highlight.title}</h3>
-                <p className="mt-2 text-sm text-slate-600">{highlight.description}</p>
+                <div className="flex items-center gap-2">
+                  <FiCheckCircle aria-hidden="true" className="text-brand-secondary" />
+                  <span className="text-sm font-semibold uppercase tracking-wide text-white">
+                    {highlight.title}
+                  </span>
+                </div>
+                <p className="mt-3 text-sm text-white/90">{highlight.description}</p>
               </div>
             ))}
           </div>
+          <div className="flex flex-wrap items-center gap-4">
+            <Link
+              href="#contato"
+              className="inline-flex items-center gap-2 rounded-full bg-brand-secondary px-6 py-3 text-sm font-semibold uppercase tracking-wide text-brand-primary shadow-lg shadow-brand-secondary/40 transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-secondary"
+            >
+              Falar com especialista
+              <FiArrowRight aria-hidden="true" />
+            </Link>
+            <a
+              href={clientAreaUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Acessar área do cliente
+              <FiArrowRight aria-hidden="true" />
+            </a>
+          </div>
         </div>
-        <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-xl">
-          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,#fde7ef,transparent)]" />
-          <h2 className="text-2xl font-semibold text-slate-900">Mensalidades personalizadas</h2>
-          <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Adequamos o plano às necessidades da sua operação, com indicadores claros e atendimento
-            humanizado.
-          </p>
-          <ul className="mt-6 space-y-3 text-sm text-slate-600">
-            <li className="flex items-start gap-3">
-              <FiCheckCircle className="mt-1 h-5 w-5 text-brand-orange" aria-hidden="true" />
-              Assessoria completa em fiscal, contábil e trabalhista.
-            </li>
-            <li className="flex items-start gap-3">
-              <FiCheckCircle className="mt-1 h-5 w-5 text-brand-orange" aria-hidden="true" />
-              Painéis com indicadores essenciais para decisões rápidas.
-            </li>
-            <li className="flex items-start gap-3">
-              <FiCheckCircle className="mt-1 h-5 w-5 text-brand-orange" aria-hidden="true" />
-              Atendimento por WhatsApp, e-mail e portal integrado.
-            </li>
-          </ul>
+        <div className="relative">
+          <div className="absolute -inset-6 rounded-3xl bg-brand-secondary/30 blur-3xl opacity-40" />
+          <div className="relative rounded-3xl border border-white/20 bg-white p-8 text-brand-primary shadow-2xl shadow-brand-primary/30">
+            <h2 className="text-xl font-semibold text-brand-primary">
+              Resultados que transformam
+            </h2>
+            <p className="mt-4 text-sm text-brand-primary/80">
+              Reduza a carga operacional, garanta compliance e tome decisões com dados confiáveis.
+              A Spolaor Contabilidade cuida dos bastidores para que você foque em crescer.
+            </p>
+            <ul className="mt-6 space-y-3 text-sm text-brand-primary">
+              <li className="flex items-start gap-2">
+                <FiCheckCircle className="mt-1 text-brand-secondary" aria-hidden="true" />
+                SLA de resposta em até 2h úteis pelos canais digitais.
+              </li>
+              <li className="flex items-start gap-2">
+                <FiCheckCircle className="mt-1 text-brand-secondary" aria-hidden="true" />
+                Time multidisciplinar em tributos, folha, BPO financeiro e controladoria.
+              </li>
+              <li className="flex items-start gap-2">
+                <FiCheckCircle className="mt-1 text-brand-secondary" aria-hidden="true" />
+                Painéis em tempo real com indicadores para lideranças e sócios.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -227,23 +245,23 @@ function Hero() {
 
 function ActionBlocks() {
   return (
-    <section className="border-b border-slate-200 bg-white py-16">
-      <div className="container grid gap-6 md:grid-cols-2">
+    <section className="bg-white py-20">
+      <div className="container grid gap-6 lg:grid-cols-2">
         {actionCards.map((card) => (
           <div
             key={card.title}
-            className="flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+            className="flex flex-col justify-between rounded-3xl border border-brand-primary/10 bg-white p-10 shadow-lg shadow-brand-primary/5"
           >
             <div className="space-y-4">
-              <h3 className="text-2xl font-semibold text-slate-900">{card.title}</h3>
+              <h2 className="text-2xl font-semibold text-slate-900">{card.title}</h2>
               <p className="text-sm text-slate-600">{card.description}</p>
             </div>
             <Link
               href={card.href}
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-brand-orange/30 transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+              className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-brand-secondary px-6 py-3 text-sm font-semibold uppercase tracking-wide text-brand-primary shadow-brand-secondary/30 transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-secondary"
             >
               {card.cta}
-              <FiArrowRight className="h-4 w-4" aria-hidden="true" />
+              <FiArrowRight aria-hidden="true" />
             </Link>
           </div>
         ))}
@@ -252,32 +270,20 @@ function ActionBlocks() {
   );
 }
 
-function WineCta() {
+function PrimaryCta() {
   return (
-    <section className="border-b border-slate-200 bg-slate-50 py-16">
-      <div className="container overflow-hidden rounded-3xl bg-brand-wine px-8 py-14 shadow-xl shadow-brand-wine/40 sm:px-16">
-        <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr] md:items-center">
-          <div className="space-y-4 text-white">
-            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/70">
-              Consultoria premium
-            </span>
-            <h2 className="text-3xl font-bold sm:text-4xl">
-              A Spolaor Contabilidade pode te ajudar
-            </h2>
-            <p className="max-w-xl text-sm text-white/80">
-              Cuidamos da rotina contábil, fiscal e trabalhista enquanto você direciona energia ao
-              crescimento do negócio.
-            </p>
-          </div>
-          <ul className="space-y-3 rounded-2xl bg-white/10 p-6 text-sm text-white/90 shadow-inner shadow-black/30 md:p-8">
-            {wineHighlights.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <FiCheckCircle className="mt-1 h-5 w-5 text-white/80" aria-hidden="true" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <section className="bg-brand-secondary py-16 text-brand-primary">
+      <div className="container flex flex-col items-center gap-6 text-center">
+        <span className="text-xs font-semibold uppercase tracking-[0.35em] text-brand-primary/70">
+          Consultoria dedicada
+        </span>
+        <h2 className="text-3xl font-semibold sm:text-4xl text-brand-primary">
+          A Contabilidade pode te ajudar
+        </h2>
+        <p className="max-w-2xl text-sm text-brand-primary/80">
+          Conectamos tecnologia, especialistas e indicadores para antecipar riscos, organizar dados
+          e revelar oportunidades. Vamos construir juntos uma operação financeira escalável.
+        </p>
       </div>
     </section>
   );
@@ -285,197 +291,175 @@ function WineCta() {
 
 function Services() {
   return (
-    <section id="servicos" className="border-y border-slate-200 bg-white py-20">
-      <div className="container">
-        <div className="mb-12 space-y-4 text-center">
-          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-brand-orange">
-            Nossos serviços
+    <section className="bg-white py-24 text-brand-primary">
+      <div className="container space-y-12">
+        <div className="space-y-3 text-center text-brand-primary">
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-brand-primary/70">
+            Expertise completa
           </span>
-          <h2 className="text-3xl font-bold text-slate-900">Especialidades para o seu negócio</h2>
-          <p className="mx-auto max-w-2xl text-sm text-slate-600">
-            Um ecossistema completo para dar suporte contábil, fiscal e financeiro em todas as
-            etapas da sua empresa.
+          <h2 className="text-3xl font-bold">Nossos serviços</h2>
+          <p className="mx-auto max-w-2xl text-sm text-brand-primary/80">
+            Uma frente consultiva que integra finanças, contabilidade, pessoas e governança
+            para apoiar empresas em expansão.
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {services.map((service, index) => {
-            const Icon = serviceIcons[index] ?? FiZap;
-            return (
-              <article
-                key={service.title}
-                className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-              >
-                <span
-                  aria-hidden
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-orange/10 text-brand-orange"
-                >
-                  <Icon className="h-6 w-6" aria-hidden="true" />
-                </span>
-                <h3 className="text-xl font-semibold text-slate-900">{service.title}</h3>
-                <p className="text-sm text-slate-600">{service.description}</p>
-              </article>
-            );
-          })}
+          {services.map((service) => (
+            <div
+              key={service.title}
+              className="rounded-3xl border border-brand-primary/10 bg-slate-50 p-8 shadow-lg shadow-brand-primary/5 transition hover:-translate-y-1 hover:shadow-lg"
+            >
+              <service.icon aria-hidden="true" className="h-8 w-8 text-brand-secondary" />
+              <h3 className="mt-6 text-xl font-semibold text-brand-primary">{service.title}</h3>
+              <p className="mt-3 text-sm text-brand-primary/80">{service.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function WhatsAppSection() {
+function SupportSection() {
   return (
-    <section className="border-b border-slate-200 bg-white py-16">
-      <div className="container flex flex-col gap-8 rounded-3xl border border-slate-200 bg-gradient-to-br from-emerald-50 via-white to-white p-10 shadow-lg shadow-emerald-200/40 lg:flex-row lg:items-center lg:justify-between">
-        <div className="max-w-2xl space-y-4">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-green">
-            Como podemos te ajudar?
+    <section id="area-cliente" className="bg-white py-20">
+      <div className="container grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+        <div className="space-y-5">
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-brand-primary">
+            Atendimento humano
           </span>
-          <h2 className="text-3xl font-bold text-slate-900">
-            Atendimento especializado no WhatsApp
+          <h2 className="text-3xl font-bold text-brand-primary">
+            Como podemos te ajudar?
+          </h2>
+          <p className="max-w-xl text-sm text-slate-600">
+            Fale com nossa equipe pelo WhatsApp {whatsappDisplay} ou acesse o portal para acompanhar
+            indicadores, tributos e documentos em tempo real.
+          </p>
+          <div className="flex flex-wrap gap-4">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-[#25D366]/30 transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
+            >
+              Chamar no WhatsApp
+              <FaWhatsapp aria-hidden="true" />
+            </a>
+            <a
+              href={clientAreaUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-brand-primary px-6 py-3 text-sm font-semibold uppercase tracking-wide text-brand-primary transition hover:-translate-y-0.5 hover:bg-brand-primary hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
+            >
+              Área do Cliente
+              <FiArrowRight aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+        <div className="rounded-3xl border border-brand-primary/10 bg-slate-50 p-8 shadow-lg shadow-brand-primary/10">
+          <div className="space-y-4 text-sm text-slate-600">
+            <p>
+              <strong className="text-slate-900">SLA de retorno:</strong> 2 horas úteis no WhatsApp,
+              1 dia útil em chamados.
+            </p>
+            <p>
+              <strong className="text-slate-900">Plantão de obrigações:</strong> monitoramento fiscal
+              contínuo com alertas proativos.
+            </p>
+            <p>
+              <strong className="text-slate-900">Portal 24/7:</strong> relatórios, recibos e obrigações
+              sempre atualizados.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AberturaSteps() {
+  return (
+    <section id="abertura" className="bg-slate-100 py-20">
+      <div className="container space-y-12">
+        <header className="max-w-2xl space-y-3">
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-brand-secondary">
+            Abrir empresa
+          </span>
+          <h2 className="text-3xl font-bold text-brand-primary">
+            Abra sua Empresa agora
           </h2>
           <p className="text-sm text-slate-600">
-            Tire dúvidas sobre abertura, migração ou rotina contábil com uma equipe pronta para
-            responder em tempo real.
+            Um processo guiado de ponta a ponta, com especialistas cuidando da documentação,
+            planejamentos e prazos legais.
           </p>
-        </div>
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-3 rounded-full bg-brand-green px-8 py-4 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-brand-green/40 transition hover:-translate-y-1 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green"
-        >
-          <FaWhatsapp className="h-6 w-6" aria-hidden="true" />
-          Conversar agora
-        </a>
+        </header>
+        <StepList steps={abrirSteps} />
       </div>
     </section>
   );
 }
 
-type StepsSectionProps = {
-  id: string;
-  title: string;
-  description: string;
+function TrocaSteps() {
+  return (
+    <section id="trocar" className="bg-white py-20">
+      <div className="container space-y-12">
+        <header className="max-w-2xl space-y-3">
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-brand-secondary">
+            Trocar de contador
+          </span>
+          <h2 className="text-3xl font-bold text-brand-primary">
+            Troque de Contabilidade
+          </h2>
+          <p className="text-sm text-slate-600">
+            Assumimos a comunicação com o contador atual, organizamos pendências e garantimos
+            uma transição sem ruídos para a sua operação.
+          </p>
+        </header>
+        <StepList steps={trocarSteps} />
+      </div>
+    </section>
+  );
+}
+
+type StepListProps = {
   steps: string[];
-  cta?: {
-    label: string;
-    href: string;
-  };
 };
 
-function StepsSection({ id, title, description, steps, cta }: StepsSectionProps) {
+function StepList({ steps }: StepListProps) {
   return (
-    <section id={id} className="border-b border-slate-200 bg-slate-100 py-20">
-      <div className="container space-y-10">
-        <div className="max-w-2xl space-y-4">
-          <h2 className="text-3xl font-bold text-slate-900">{title}</h2>
-          <p className="text-sm text-slate-600">{description}</p>
-        </div>
-        <ol className="grid gap-6 md:grid-cols-2">
-          {steps.map((step, index) => (
-            <li
-              key={step}
-              className="group flex gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-brand-orange/70 hover:shadow-lg"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-orange text-base font-bold text-white shadow shadow-brand-orange/40">
-                {index + 1}
-              </span>
-              <p className="text-sm text-slate-700">{step}</p>
-            </li>
-          ))}
-        </ol>
-        {cta && (
-          <div>
-            <Link
-              href={cta.href}
-              className="inline-flex items-center gap-2 rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-brand-orange/30 transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
-            >
-              {cta.label}
-              <FiArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
-
-function AreaCliente() {
-  const [{ label, description, href }] = areaClienteLinks;
-
-  return (
-    <section id="area-cliente" className="border-b border-slate-200 bg-white py-16">
-      <div className="container grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-        <div className="space-y-4">
-          <h2 className="text-3xl font-bold text-slate-900">Área do Cliente</h2>
-          <p className="max-w-xl text-sm text-slate-600">
-            Centralize documentos, relatórios, boletos e suporte em um ambiente seguro e disponível
-            24 horas por dia.
-          </p>
-        </div>
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <p className="text-sm text-slate-600">{description}</p>
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-brand-orange/30 transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
-          >
-            {label}
-            <FiArrowRight className="h-4 w-4" aria-hidden="true" />
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function TrabalheConosco() {
-  return (
-    <section id="trabalhe" className="border-b border-slate-200 bg-slate-100 py-16">
-      <div className="container grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-        <div className="space-y-4">
-          <h2 className="text-3xl font-bold text-slate-900">Trabalhe Conosco</h2>
-          <p className="max-w-xl text-sm text-slate-600">{trabalheConosco.description}</p>
-        </div>
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <ul className="space-y-3 text-sm text-slate-600">
-            <li className="flex items-start gap-3">
-              <FiZap className="mt-1 h-5 w-5 text-brand-orange" aria-hidden="true" />
-              Ambiente colaborativo com plano de desenvolvimento contínuo.
-            </li>
-            <li className="flex items-start gap-3">
-              <FiZap className="mt-1 h-5 w-5 text-brand-orange" aria-hidden="true" />
-              Projetos desafiadores com empresas de diferentes segmentos.
-            </li>
-          </ul>
-          <a
-            href={`mailto:${trabalheConosco.email}`}
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-brand-orange/30 transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
-          >
-            Envie seu currículo
-            <FiArrowRight className="h-4 w-4" aria-hidden="true" />
-          </a>
-        </div>
-      </div>
-    </section>
+    <ol className="grid gap-6 md:grid-cols-2">
+      {steps.map((step, index) => (
+        <li
+          key={step}
+          className="rounded-3xl border border-brand-primary/10 bg-white p-8 shadow-lg shadow-brand-primary/5"
+        >
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-secondary text-sm font-semibold text-brand-primary">
+            {index + 1}
+          </span>
+          <p className="mt-4 text-sm text-slate-600">{step}</p>
+        </li>
+      ))}
+    </ol>
   );
 }
 
 function Mapa() {
   return (
-    <section id="mapa" className="border-b border-slate-200 bg-white py-16">
+    <section id="mapa" className="bg-slate-100 py-20">
       <div className="container space-y-6">
-        <div className="space-y-2">
-          <h2 className="text-3xl font-bold text-slate-900">Onde estamos</h2>
+        <div className="space-y-3">
+          <span className="text-xs font-semibold uppercase tracking-[0.35em] text-brand-secondary">
+            Onde estamos
+          </span>
+          <h2 className="text-3xl font-bold text-brand-primary">Mapa</h2>
           <p className="text-sm text-slate-600">
-            Atendemos empresas em todo o Brasil, com escritório-base em São Paulo.
+            Atendemos empresas em todo o Brasil com base em São Paulo e operação 100% digital.
           </p>
         </div>
-        <div className="overflow-hidden rounded-3xl border border-slate-200 shadow-md">
+        <div className="overflow-hidden rounded-3xl border border-slate-200 shadow-lg shadow-slate-200/50">
           <iframe
-            title="Localização da Spolaor Contabilidade"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.9442406064587!2d-46.65213752372061!3d-23.5701507787969!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8a1d3bff7%3A0x7b8d0a58f3f5c33e!2sAvenida%20Paulista%2C%201000!5e0!3m2!1spt-BR!2sbr!4v1719000000000!5m2!1spt-BR!2sbr"
+            title="Localização Spolaor Contabilidade"
+            src={mapEmbedUrl}
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
@@ -489,34 +473,58 @@ function Mapa() {
 
 function Contato() {
   return (
-    <section id="contato" className="bg-slate-100 py-20">
+    <section id="contato" className="bg-white py-24">
       <div className="container grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="space-y-3">
-            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-brand-orange">
+            <span className="text-xs font-semibold uppercase tracking-[0.35em] text-brand-secondary">
               Contato
             </span>
-            <h2 className="text-3xl font-bold text-slate-900">Fale com a gente</h2>
+            <h2 className="text-3xl font-bold text-brand-primary">
+              Fale com a nossa equipe
+            </h2>
             <p className="text-sm text-slate-600">
-              Preencha o formulário e retornamos em até um dia útil. Se preferir, fale conosco pelo
-              WhatsApp ou ligue (11) 99999-9999.
+              Responderemos em até 1 dia útil. Se preferir, chame no WhatsApp {whatsappDisplay}.
             </p>
           </div>
           <div className="space-y-4 text-sm text-slate-600">
             <p>
               <strong className="text-slate-900">E-mail:</strong>{" "}
-              contato@spolaorcontabilidade.com.br
+              <a
+                href={`mailto:${contactEmail}`}
+                className="text-slate-900 underline decoration-brand-secondary/60 underline-offset-4 transition hover:text-brand-secondary"
+              >
+                {contactEmail}
+              </a>
             </p>
             <p>
-              <strong className="text-slate-900">Telefone:</strong> (11) 99999-9999
+              <strong className="text-slate-900">Telefone:</strong> {phoneDisplay}
             </p>
             <p>
-              <strong className="text-slate-900">Endereço:</strong> Av. Paulista, 1000 - Bela Vista,
-              São Paulo - SP
+              <strong className="text-slate-900">Endereço:</strong> {address}
             </p>
           </div>
+          <div
+            id="trabalhe"
+            className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm"
+          >
+            <h3 className="text-lg font-semibold text-slate-900">
+              Trabalhe com a gente
+            </h3>
+            <p className="mt-3 text-sm text-slate-600">
+              Estamos sempre em busca de talentos que amam números e pessoas. Envie seu CV e
+              conte como podemos somar.
+            </p>
+            <a
+              href={`mailto:${talentEmail}`}
+              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-primary transition hover:text-brand-secondary"
+            >
+              Envie seu currículo
+              <FiArrowRight aria-hidden="true" />
+            </a>
+          </div>
         </div>
-        <ContactForm />
+        <ContactForm context="homepage" />
       </div>
     </section>
   );
@@ -524,28 +532,40 @@ function Contato() {
 
 function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-slate-900 py-10 text-slate-300">
-      <div className="container flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <p className="text-sm text-slate-200">
-            © {new Date().getFullYear()} Spolaor Contabilidade. Todos os direitos reservados.
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-6 text-sm">
-          <Link href="#hero" className="transition hover:text-brand-orange">
-            Início
-          </Link>
-          <Link href="/abertura" className="transition hover:text-brand-orange">
+    <footer className="border-t border-white/10 bg-brand-primary py-10 text-white">
+      <div className="container flex flex-col gap-6 text-sm lg:flex-row lg:items-center lg:justify-between">
+        <p>
+          Â© {new Date().getFullYear()} Spolaor Contabilidade. Todos os direitos reservados.
+        </p>
+        <div className="flex flex-wrap items-center gap-6">
+          <Link href="#abertura" className="transition hover:text-brand-secondary">
             Abertura
           </Link>
-          <Link href="/trocar" className="transition hover:text-brand-orange">
-            Trocar de contador
+          <Link href="#trocar" className="transition hover:text-brand-secondary">
+            Trocar
           </Link>
-          <Link href="#contato" className="transition hover:text-brand-orange">
-            Contato
+          <Link href="#area-cliente" className="transition hover:text-brand-secondary">
+            Área do cliente
+          </Link>
+          <Link href="#trabalhe" className="transition hover:text-brand-secondary">
+            Trabalhe
           </Link>
         </div>
       </div>
     </footer>
+  );
+}
+
+function FloatingWhatsApp() {
+  return (
+    <a
+      href={whatsappUrl}
+      target="_blank"
+      rel="noreferrer"
+      className="fixed bottom-6 right-6 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl shadow-[#25D366]/50 transition hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
+      aria-label="Falar com a contabilidade pelo WhatsApp"
+    >
+      <FaWhatsapp className="h-6 w-6" aria-hidden="true" />
+    </a>
   );
 }

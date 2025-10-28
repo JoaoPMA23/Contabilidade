@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { FormEvent, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
@@ -42,7 +42,7 @@ export default function ContactForm({
   defaultSubject = "",
   subjectLabel = "Assunto",
   subjectPlaceholder = "Como podemos ajudar?",
-  messagePlaceholder = "Conte um pouco sobre o seu cenário atual e objetivos.",
+  messagePlaceholder = "Conte um pouco sobre a situação atual da sua empresa.",
   submitLabel = "Enviar mensagem",
   successMessage = "Recebemos sua mensagem! Em breve entraremos em contato.",
   errorMessage = "Não foi possível enviar sua mensagem. Tente novamente em instantes.",
@@ -171,7 +171,7 @@ export default function ContactForm({
           name="message"
           placeholder={messagePlaceholder}
           rows={5}
-          className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-orange focus:outline-none focus:ring-2 focus:ring-brand-orange/40"
+          className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/40"
           value={form.message}
           onChange={(event) =>
             setForm((prev) => ({ ...prev, message: event.target.value }))
@@ -182,7 +182,7 @@ export default function ContactForm({
       {feedback && (
         <p
           className={`mt-4 text-sm ${
-            status === "error" ? "text-red-500" : "text-brand-green"
+            status === "error" ? "text-red-500" : "text-brand-primary"
           }`}
           role="status"
           aria-live="polite"
@@ -192,7 +192,7 @@ export default function ContactForm({
       )}
       <button
         type="submit"
-        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold uppercase tracking-wide text-slate-900 shadow-lg shadow-brand-orange/30 transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-secondary px-6 py-3 text-sm font-semibold uppercase tracking-wide text-brand-tertiary shadow-lg shadow-brand-secondary/30 transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-secondary disabled:cursor-not-allowed disabled:opacity-60"
         disabled={status === "loading"}
       >
         {status === "loading" ? "Enviando..." : submitLabel}
@@ -243,7 +243,7 @@ function TextField({
         autoComplete={autoComplete}
         pattern={pattern}
         required={required}
-        className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-orange focus:outline-none focus:ring-2 focus:ring-brand-orange/40"
+        className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-secondary focus:outline-none focus:ring-2 focus:ring-brand-secondary/40"
       />
     </div>
   );

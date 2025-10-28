@@ -3,11 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: radial-gradient(circle at top, #fef3c7, #f8fafc 55%);
+  --background: #ffffff;
   --foreground: #0f172a;
-  --surface-dark: #ffffff;
-  --surface-muted: #f1f5f9;
-  --border-muted: #d0d7e2;
   --header-height: 72px;
 }
 
@@ -19,53 +16,6 @@ body {
   line-height: 1.6;
   min-height: 100%;
   position: relative;
-}
-
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-}
-
-body::before {
-  background:
-    radial-gradient(
-      circle at 18% 22%,
-      rgba(251, 191, 36, 0.18),
-      transparent 44%
-    ),
-    radial-gradient(
-      circle at 82% 18%,
-      rgba(16, 185, 129, 0.12),
-      transparent 45%
-    ),
-    radial-gradient(
-      circle at 16% 78%,
-      rgba(59, 130, 246, 0.12),
-      transparent 48%
-    ),
-    radial-gradient(
-      circle at 90% 70%,
-      rgba(249, 115, 22, 0.14),
-      transparent 52%
-    );
-}
-
-body::after {
-  z-index: -1;
-  background:
-    radial-gradient(
-      circle at 50% 12%,
-      rgba(255, 255, 255, 0.92),
-      rgba(248, 250, 252, 0.6)
-    ),
-    linear-gradient(
-      180deg,
-      rgba(248, 250, 252, 0.5),
-      rgba(248, 250, 252, 0.8)
-    );
 }
 
 html {

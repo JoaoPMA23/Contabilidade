@@ -19,11 +19,9 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         brand: {
-          dark: "#1f2937",
-          wine: "#7f1d3a",
-          orange: "#f97316",
-          green: "#16a34a",
-          light: "#f8fafc",
+          primary: "#024a7f",
+          secondary: "#eb8e2d",
+          tertiary: "#ffffff",
         },
         surface: {
           light: "#ffffff",

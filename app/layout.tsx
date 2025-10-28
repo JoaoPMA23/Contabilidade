@@ -3,8 +3,7 @@ import "./globals.css";
 
 const siteName = "Spolaor Contabilidade";
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  "https://www.spolaorcontabilidade.com.br";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.spolaorcontabilidade.com.br";
 
 const metadataBase = (() => {
   try {

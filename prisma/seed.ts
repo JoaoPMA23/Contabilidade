@@ -24,13 +24,14 @@ async function main() {
 
   const adminHash = await hash(adminPassword, 12);
 
-  await prisma.user.upsert({
-    where: { username: "admin" },
-    update: {
+  await prisma.user.upsert({
+    where: { username: "admin" },
+    update: {
       passwordHash: adminHash,
       role: RoleEnum.ADMIN,
       email: "admin@contabilidade.test",
       name: "Administrador",
+      mustChangePassword: true,
     },
     create: {
       username: "admin",
@@ -38,6 +39,7 @@ async function main() {
       email: "admin@contabilidade.test",
       passwordHash: adminHash,
       role: RoleEnum.ADMIN,
+      mustChangePassword: true,
     },
   });
 
@@ -47,15 +49,17 @@ async function main() {
     ["marina", "luiz"].map((username, index) =>
       prisma.user.upsert({
         where: { username },
-        update: {
-          passwordHash: agentHash,
-        },
+        update: {
+          passwordHash: agentHash,
+          mustChangePassword: true,
+        },
         create: {
           username,
           name: `Agente ${index + 1}`,
           email: `${username}@contabilidade.test`,
           passwordHash: agentHash,
           role: RoleEnum.AGENT,
+          mustChangePassword: true,
         },
       })
     )

@@ -10,12 +10,16 @@ export default async function AccountPage() {
     redirect("/login");
   }
 
+  const mustChangePassword = session.user.mustChangePassword === true;
+
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-brand-primary">Minha conta</h1>
         <p className="text-sm text-slate-500">
-          Atualize sua senha para manter o acesso seguro.
+          {mustChangePassword
+            ? "Sua senha temporária precisa ser substituída antes de continuar usando o painel."
+            : "Atualize sua senha sempre que necessário para manter o acesso seguro."}
         </p>
       </div>
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">

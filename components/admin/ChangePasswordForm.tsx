@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn, useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { z } from "zod";
 
@@ -22,6 +24,8 @@ const passwordFormSchema = passwordUpdateSchema
 type PasswordFormValues = z.infer<typeof passwordFormSchema>;
 
 export function ChangePasswordForm() {
+  const router = useRouter();
+  const { data: session } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<PasswordFormValues>({
     resolver: zodResolver(passwordFormSchema),
@@ -31,6 +35,9 @@ export function ChangePasswordForm() {
       confirmPassword: "",
     },
   });
+
+  const mustChangePassword = session?.user?.mustChangePassword === true;
+  const username = session?.user?.username;
 
   async function onSubmit(values: PasswordFormValues) {
     setIsSubmitting(true);
@@ -49,12 +56,24 @@ export function ChangePasswordForm() {
         throw new Error(data.error ?? "Não foi possível atualizar a senha.");
       }
 
+      if (username) {
+        const signInResult = await signIn("credentials", {
+          redirect: false,
+          username,
+          password: values.newPassword,
+        });
+        if (signInResult?.error) {
+          throw new Error("Senha atualizada, mas houve erro ao atualizar a sessão. Faça login novamente.");
+        }
+      }
+
       toast.success("Senha atualizada com sucesso.");
       form.reset({
         currentPassword: "",
         newPassword: "",
         confirmPassword: "",
       });
+      router.refresh();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Erro inesperado.");
     } finally {
@@ -64,6 +83,12 @@ export function ChangePasswordForm() {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      {mustChangePassword ? (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+          Você está usando uma senha temporária. Defina uma nova senha para
+          liberar o acesso completo ao painel.
+        </div>
+      ) : null}
       <div className="space-y-2">
         <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
           Senha atual

@@ -71,6 +71,7 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           role: user.role,
           username: user.username,
+          mustChangePassword: user.mustChangePassword,
         };
       },
     }),
@@ -78,13 +79,21 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        const typedUser = user as { id: string; role?: Role; username?: string };
+        const typedUser = user as {
+          id: string;
+          role?: Role;
+          username?: string;
+          mustChangePassword?: boolean;
+        };
         token.id = typedUser.id;
         if (typedUser.role) {
           token.role = typedUser.role;
         }
         if (typedUser.username) {
           token.username = typedUser.username;
+        }
+        if (typeof typedUser.mustChangePassword === "boolean") {
+          token.mustChangePassword = typedUser.mustChangePassword;
         }
       }
       return token;
@@ -99,6 +108,9 @@ export const authOptions: NextAuthOptions = {
         }
         if (typeof token.username === "string") {
           session.user.username = token.username;
+        }
+        if (typeof token.mustChangePassword === "boolean") {
+          session.user.mustChangePassword = token.mustChangePassword;
         }
       }
       return session;

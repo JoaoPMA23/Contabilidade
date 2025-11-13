@@ -48,18 +48,19 @@ export async function POST(request: Request) {
 
     const passwordHash = await hash(parsed.data.password, 12);
 
-    const user = await prisma.user.create({
-      data: {
-        name: parsed.data.name,
-        email: parsed.data.email,
-        username: parsed.data.username,
-        passwordHash,
-        role: parsed.data.role,
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
+    const user = await prisma.user.create({
+      data: {
+        name: parsed.data.name,
+        email: parsed.data.email,
+        username: parsed.data.username,
+        passwordHash,
+        role: parsed.data.role,
+        mustChangePassword: true,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
         username: true,
         role: true,
         createdAt: true,

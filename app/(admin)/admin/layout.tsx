@@ -23,15 +23,16 @@ type AdminLayoutProps = {
   children: React.ReactNode;
 };
 
-export default async function AdminLayout({ children }: AdminLayoutProps) {
-  const session = await auth();
-
-  if (!session?.user) {
-    redirect("/login");
-  }
-
+export default async function AdminLayout({ children }: AdminLayoutProps) {
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect("/login");
+  }
+
   const isAdmin = session.user.role === "ADMIN";
   const roleDisplay = isAdmin ? "Administrador" : "Usuario comum";
+  const mustChangePassword = session.user.mustChangePassword === true;
 
   return (
     <div className="flex min-h-screen bg-slate-50">
@@ -88,18 +89,27 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
             <div className="hidden text-sm font-semibold text-slate-500 lg:block">
               {roleDisplay}
             </div>
-            <div className="flex items-center gap-3 text-sm text-slate-600">
-              <span className="hidden sm:inline-flex">
-                {session.user.name}
-              </span>
-              <span className="text-xs uppercase tracking-wide text-brand-primary">
-                {session.user.role}
-              </span>
-            </div>
-          </div>
-        </header>
-        <main className="flex-1 px-4 py-6 lg:px-10 lg:py-8">{children}</main>
-      </div>
-    </div>
-  );
+            <div className="flex items-center gap-3 text-sm text-slate-600">
+              <span className="hidden sm:inline-flex">
+                {session.user.name}
+              </span>
+              <span className="text-xs uppercase tracking-wide text-brand-primary">
+                {session.user.role}
+              </span>
+            </div>
+          </div>
+          {mustChangePassword ? (
+            <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-900">
+              Senha temporária ativa — altere-a em{" "}
+              <Link href="/admin/account" className="underline">
+                Minha conta
+              </Link>{" "}
+              para liberar o acesso completo.
+            </div>
+          ) : null}
+        </header>
+        <main className="flex-1 px-4 py-6 lg:px-10 lg:py-8">{children}</main>
+      </div>
+    </div>
+  );
 }

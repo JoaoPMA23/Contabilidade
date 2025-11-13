@@ -1,0 +1,12 @@
+development : O termo 'development' n∆o Ç reconhecido como nome de cmdlet, funá∆o, arquivo de script ou programa 
+oper†vel. Verifique a grafia do nome ou, se um caminho tiver sido inclu°do, veja se o caminho est† correto e tente 
+novamente.
+No linha:1 caractere:69
++ ... EAN\Documents\GitHub\Contabilidade; $env:NODE_ENV=development; npx ne ...
++                                                       ~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (development:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+ ‚ö† Port 3000 is in use, trying 3001 instead.
+ ‚ö† Port 3001 is in use, trying 3002 instead.
+ ‚ö† Port 3002 is in use, trying 3003 instead.

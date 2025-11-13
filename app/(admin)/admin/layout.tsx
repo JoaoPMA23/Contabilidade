@@ -4,16 +4,20 @@ import { redirect } from "next/navigation";
 import { SignOutButton } from "@/components/admin/SignOutButton";
 import { auth } from "@/lib/auth";
 
-const navigation = [
-  {
-    label: "Leads",
-    href: "/admin/leads",
-  },
-  {
-    label: "Novo Lead",
-    href: "/admin/leads/new",
-  },
-];
+const navigation = [
+  {
+    label: "Leads",
+    href: "/admin/leads",
+  },
+  {
+    label: "Novo Lead",
+    href: "/admin/leads/new",
+  },
+  {
+    label: "Minha conta",
+    href: "/admin/account",
+  },
+];
 
 type AdminLayoutProps = {
   children: React.ReactNode;
@@ -26,7 +30,8 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
     redirect("/login");
   }
 
-  const isAdmin = session.user.role === "ADMIN";
+  const isAdmin = session.user.role === "ADMIN";
+  const roleDisplay = isAdmin ? "Administrador" : "Usuario comum";
 
   return (
     <div className="flex min-h-screen bg-slate-50">
@@ -56,11 +61,17 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
             </Link>
           ) : null}
         </nav>
-        <div className="mt-auto space-y-2 text-xs text-slate-500">
-          <p className="font-semibold text-slate-700">{session.user.name}</p>
-          <p>{session.user.email}</p>
+        <div className="mt-auto space-y-2 text-xs text-slate-500">
+          <p className="font-semibold text-slate-700">{session.user.name}</p>
+          <p>{session.user.email}</p>
+          <Link
+            href="/admin/account"
+            className="inline-flex text-brand-primary underline-offset-4 hover:underline"
+          >
+            Alterar senha
+          </Link>
           <SignOutButton className="mt-3 w-full" />
-        </div>
+        </div>
       </aside>
       <div className="flex flex-1 flex-col">
         <header className="border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur">
@@ -74,9 +85,9 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
             >
               ☰
             </button>
-            <div className="hidden text-sm font-semibold text-slate-500 lg:block">
-              {session.user.role === "ADMIN" ? "Administrador" : "Agente"}
-            </div>
+            <div className="hidden text-sm font-semibold text-slate-500 lg:block">
+              {roleDisplay}
+            </div>
             <div className="flex items-center gap-3 text-sm text-slate-600">
               <span className="hidden sm:inline-flex">
                 {session.user.name}

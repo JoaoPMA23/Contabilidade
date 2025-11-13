@@ -12,10 +12,10 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { userCreateSchema } from "@/lib/zod-schemas";
 
-const ROLE_OPTIONS = [
-  { value: "ADMIN", label: "Administrador" },
-  { value: "AGENT", label: "Agente" },
-];
+const ROLE_OPTIONS = [
+  { value: "ADMIN", label: "Administrador" },
+  { value: "AGENT", label: "Usuario comum" },
+];
 
 type UserFormValues = z.infer<typeof userCreateSchema>;
 

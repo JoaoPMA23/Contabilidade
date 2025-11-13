@@ -63,10 +63,21 @@ export const fileUploadSchema = z.object({
   buffer: z.instanceof(Uint8Array),
 });
 
-export const userCreateSchema = z.object({
-  name: z.string().min(1),
-  email: z.string().email(),
-  username: z.string().min(3),
-  password: z.string().min(6),
-  role: z.enum(["ADMIN", "AGENT"]).default("AGENT"),
-});
+export const userCreateSchema = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+  username: z.string().min(3),
+  password: z.string().min(6),
+  role: z.enum(["ADMIN", "AGENT"]).default("AGENT"),
+});
+
+export const passwordUpdateSchema = z.object({
+  currentPassword: z.string().min(6, "Informe a senha atual"),
+  newPassword: z
+    .string()
+    .min(8, "A nova senha deve ter pelo menos 8 caracteres")
+    .refine(
+      (value) => /[a-zA-Z]/.test(value) && /\d/.test(value),
+      "A nova senha deve conter letras e números"
+    ),
+});

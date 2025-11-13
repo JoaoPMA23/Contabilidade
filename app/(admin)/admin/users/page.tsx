@@ -1,9 +1,14 @@
-import { redirect } from "next/navigation";
-
-import { UserForm } from "@/components/admin/UserForm";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
+
+import { UserForm } from "@/components/admin/UserForm";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+
+const ROLE_LABEL: Record<"ADMIN" | "AGENT", string> = {
+  ADMIN: "Administrador",
+  AGENT: "Usuario comum",
+};
 
 export default async function UsersPage() {
   const session = await auth();
@@ -71,7 +76,9 @@ export default async function UsersPage() {
                     <td className="px-4 py-3 text-slate-700">{user.name}</td>
                     <td className="px-4 py-3 text-slate-500">{user.email}</td>
                     <td className="px-4 py-3 text-slate-500">{user.username}</td>
-                    <td className="px-4 py-3 text-slate-500">{user.role}</td>
+                    <td className="px-4 py-3 text-slate-500">
+                      {ROLE_LABEL[user.role] ?? user.role}
+                    </td>
                     <td className="px-4 py-3 text-slate-500">
                       {user.createdAt.toLocaleDateString("pt-BR")}
                     </td>
